@@ -7,8 +7,7 @@ import errorMiddleware from './middlewares/error.middleware.js';
 const app = express();
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(express.static('public')); // Serve static files from 'public' directory
+app.use(express.urlencoded({ extended: true })); // Middleware to parse URL-encoded data
 app.use(cookieParser()); // Middleware to parse cookies
 
 
