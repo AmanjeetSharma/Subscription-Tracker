@@ -11,9 +11,6 @@ export const signUp = async (req, res, next) => {
     try {
         // Logic for user sign-up
         const { name, email, password } = req.body;
-        // if (!name || !email || !password) {
-        //     return res.status(400).json({ message: "All fields are required" });
-        // }
 
         // Check if user already exists
         const existingUser = await User.findOne({ email });
@@ -23,7 +20,6 @@ export const signUp = async (req, res, next) => {
             throw error;
         }
 
-        // Hashing the password
         const hashedPassword = await bcrypt.hash(password, 10);
 
         const newUser = await User.create([{
