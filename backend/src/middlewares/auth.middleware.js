@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import { JWT_SECRET } from "../config/env.js";
 import User from "../models/user.model.js";
 
-export const authorize = async (req, res, next) => {
+export const verifyToken = async (req, res, next) => {
     try {
         let token;
         if(req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
