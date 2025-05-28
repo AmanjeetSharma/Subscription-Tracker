@@ -35,7 +35,7 @@ export const signUp = async (req, res, next) => {
 
         const isUserCreated = await User.findById(newUser[0]._id)
             .select("-password -token") // Exclude password and token from the response
-            .session(session); // 👈 This is required inside the transaction
+            .session(session); // This is required inside the transaction
 
 
         // Commit the transaction
