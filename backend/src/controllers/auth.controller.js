@@ -63,13 +63,13 @@ export const signIn = async (req, res, next) => {
     try {
         const { email, password } = req.body;
         // Find user by email
-        const user = await User.find({ email });
+        const user = await User.findOne({ email });
         if (!user) {
             const error = new Error("User not found");
             error.status = 404; // Not Found
             throw error;
         }
-        const isPasswordValid = await bcrypt.compare(password, user[0].password);
+        const isPasswordValid = await bcrypt.compare(password, user.password);
         if (!isPasswordValid) {
             const error = new Error("Invalid password");
             error.status = 401; // Unauthorized
@@ -81,7 +81,7 @@ export const signIn = async (req, res, next) => {
             { expiresIn: JWT_EXPIRES_IN }
         );
 
-        const safeUser = await User.findById(user[0]._id)
+        const safeUser = await User.findById(user._id)
             .select("-password");
 
         console.log(`✅  ${safeUser.name} signed in successfully`);

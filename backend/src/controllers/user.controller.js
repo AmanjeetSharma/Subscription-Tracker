@@ -1,15 +1,16 @@
 import User from '../models/user.model.js';
 
-export const getUsers = async (req, res, next)=>{
+export const getUsers = async (req, res, next) => {
     try {
         const users = await User.find();
-        res.status(200).json({success: true, data: users});
+        console.log(`👥  Fetched ${users.length} users from the database`);
+        res.status(200).json({ success: true, data: users });
     } catch (error) {
         next(error);
     }
 }
 
-export const getUser = async (req, res, next)=>{
+export const getUser = async (req, res, next) => {
     try {
         const user = await User.findById(req.params.id).select('-password -__v');
         if (!user) {
@@ -18,8 +19,8 @@ export const getUser = async (req, res, next)=>{
             error.status = 404;
             throw next(error);
         }
-        
-        res.status(200).json({success: true, data: user});
+        console.log(`👤  Fetched user... name: ${user.name}`);
+        res.status(200).json({ success: true, data: user });
     } catch (error) {
         next(error);
     }
