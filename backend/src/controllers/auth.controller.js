@@ -84,7 +84,7 @@ export const signIn = async (req, res, next) => {
         const safeUser = await User.findById(user[0]._id)
             .select("-password");
 
-        console.log("✅  User signed in successfully");
+        console.log(`✅  ${safeUser.name} signed in successfully`);
         res.status(200).json({
             success: true,
             message: "User signed in successfully",
