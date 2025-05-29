@@ -61,3 +61,30 @@ export const deleteSubscription = async (req, res, next) => {
         next(error);
     }
 }
+
+export const updateSubscription = async (req, res, next) => {
+    try {
+        const subscription = await Subscription.findByIdAndUpdate(req.params.id, req.body, { new: true });// new parameter returns the updated document
+        if (!subscription) {
+            return res.status(404).json({
+                success: false,
+                message: 'Subscription not found'
+            });
+        }
+        console.log(`✅ Subscription updated: ${subscription.name}`);
+        // Return only the updated fields along with the id
+        const updatedFields = Object.keys(req.body);
+        const updatedData = { _id: subscription._id };
+        updatedFields.forEach(field => {
+            updatedData[field] = subscription[field];
+        });
+        console.log(`Updated fields: ${JSON.stringify(updatedData)}`);
+        res.status(200).json({
+            success: true,
+            message: 'Subscription updated successfully',
+            data: subscription
+        });
+    } catch (error) {
+        next(error);
+    }
+}
