@@ -32,9 +32,30 @@ export const getUserSubscriptions = async (req, res, next) => {
                 message: 'No subscriptions found for this user'
             });
         }
+        console.log(`✅ Subscriptions retrieved for user: ${req.params.id}`);
         res.status(200).json({
             success: true,
             data: subscriptions
+        });
+    } catch (error) {
+        next(error);
+    }
+}
+
+export const deleteSubscription = async (req, res, next) => {
+    try {
+        const subscription = await Subscription.findByIdAndDelete(req.params.id);
+        if (!subscription) {
+            return res.status(404).json({
+                success: false,
+                message: 'Subscription not found'
+            });
+        }
+        console.log(`✅ Subscription deleted: ${subscription.name}`);
+        res.status(200).json({
+            success: true,
+            message: 'Subscription deleted successfully',
+            data: subscription
         });
     } catch (error) {
         next(error);
